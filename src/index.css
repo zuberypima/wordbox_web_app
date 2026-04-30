@@ -1,0 +1,34 @@
+@import "tailwindcss";
+
+@theme {
+  --color-game-bg: #0f172a;
+}
+
+:root {
+  font-family: 'Outfit', sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  color-scheme: dark;
+  color: #f8fafc;
+  background-color: var(--color-game-bg);
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: var(--color-game-bg);
+  overflow-y: auto;
+}
+
+#root {
+  width: 100%;
+}
