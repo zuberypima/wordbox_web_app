@@ -305,11 +305,33 @@ function App() {
         )}
       </div>
 
-          <footer className="mt-12 text-blue-300/80 text-sm flex flex-col items-center gap-2 text-center">
-            <span>Select letters from the puzzle above to form valid English words.</span>
-            <span className="px-3 py-1 rounded bg-blue-900/50 border border-blue-800 text-xs text-blue-200">
-              ⌨️ Desktop users: You can also use your keyboard to type, Backspace to delete, and Enter to submit.
-            </span>
+          <footer className="mt-16 border-t border-blue-900/30 pt-10 pb-12 w-full">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-10 text-left">
+              <div>
+                <h3 className="text-blue-400 font-bold uppercase tracking-widest text-xs mb-4">How to Play</h3>
+                <ul className="space-y-2 text-sm text-blue-200/70 leading-relaxed">
+                  <li>• Tap or type adjacent/diagonal letters to build English words.</li>
+                  <li>• Valid words must be at least 3 letters long.</li>
+                  <li>• Score points based on the length and difficulty of the word.</li>
+                  <li>• The board auto-shuffles every 3 valid words to keep things fresh!</li>
+                </ul>
+              </div>
+              <div>
+                <h3 className="text-blue-400 font-bold uppercase tracking-widest text-xs mb-4">About WordBox</h3>
+                <p className="text-sm text-blue-200/70 leading-relaxed">
+                  WordBox is the ultimate online word puzzle designed to sharpen your vocabulary and logic skills. 
+                  Challenge yourself with thousands of word combinations in this addicting, fast-paced brain game. 
+                  Sign in to track your high scores and compete with word masters worldwide.
+                </p>
+              </div>
+            </div>
+            
+            <div className="mt-12 text-blue-300/40 text-[10px] uppercase tracking-[0.2em] flex flex-col items-center gap-4">
+              <div className="px-4 py-1.5 rounded-full bg-blue-900/20 border border-blue-800/30">
+                ⌨️ Desktop: Use Keyboard | Backspace: Delete | Enter: Submit
+              </div>
+              <span>© {new Date().getFullYear()} WordBox Puzzle Game. All Rights Reserved.</span>
+            </div>
           </footer>
         </div>
 
