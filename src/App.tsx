@@ -2,6 +2,8 @@ import { useState, useEffect, useCallback } from 'react'
 import GameBoard from './components/GameBoard'
 import type { GameState } from './components/GameBoard'
 import { fetchPuzzle, validateWord } from './api'
+import { useAuth } from './context/AuthContext'
+import AuthModal from './components/AuthModal'
 
 interface FoundWord {
   word: string;
@@ -23,6 +25,8 @@ function App() {
   const [isLoading, setIsLoading] = useState(true)
   const [isValidating, setIsValidating] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const [isAuthModalOpen, setIsAuthModalOpen] = useState(false)
+  const { user, token, logout } = useAuth()
 
   const loadNewPuzzle = useCallback(async () => {
     setIsLoading(true)
@@ -66,7 +70,7 @@ function App() {
     setIsValidating(true)
     setFeedback(null)
     try {
-      const result = await validateWord(selectedWord)
+      const result = await validateWord(selectedWord, token)
       setFeedback({ message: result.message, valid: result.valid })
 
       const alreadyFound = foundWords.some(w => w.word === selectedWord)
@@ -78,6 +82,7 @@ function App() {
           if (newWordsSince >= 3) {
             setRefreshKey(k => k + 1)
             setWordsSinceRefresh(0)
+            setGameState(null)
             setFeedback({ message: '3 Words Found! Board Shuffled.', valid: true })
           } else {
             setWordsSinceRefresh(newWordsSince)
@@ -156,6 +161,37 @@ function App() {
 
   return (
     <main className="min-h-screen bg-transparent text-white p-4 md:p-8 overflow-x-hidden">
+      {/* Top Navigation / Auth Bar */}
+      <div className="max-w-6xl mx-auto flex justify-end mb-4">
+        {user ? (
+          <div className="flex items-center gap-4 bg-blue-900/30 px-4 py-2 rounded-full border border-blue-800/50">
+            <div className="text-xs">
+              <div className="text-blue-300 font-bold uppercase tracking-widest opacity-70">Logged in as</div>
+              <div className="text-white font-black">{user.email}</div>
+            </div>
+            <button 
+              onClick={logout}
+              className="ml-2 p-2 hover:bg-red-500/10 rounded-full text-red-400 transition-all"
+              title="Logout"
+            >
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+              </svg>
+            </button>
+          </div>
+        ) : (
+          <button 
+            onClick={() => setIsAuthModalOpen(true)}
+            className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-full font-bold uppercase text-xs tracking-widest shadow-lg transition-all"
+          >
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+            </svg>
+            Sign In to Save Scores
+          </button>
+        )}
+      </div>
+
       <div className="max-w-6xl mx-auto flex flex-col lg:flex-row gap-12 lg:gap-24 items-center lg:items-start justify-center pt-2 lg:pt-8">
         
         {/* Left Column: Game Area */}
@@ -190,6 +226,7 @@ function App() {
               onClick={() => {
                 setRefreshKey(k => k + 1)
                 setWordsSinceRefresh(0)
+                setGameState(null)
               }}
               disabled={isLoading || !puzzleLetters}
               className="px-4 py-1.5 rounded-full bg-green-500 text-white hover:bg-green-600 transition-colors duration-300 text-xs font-bold uppercase tracking-wider shadow-sm disabled:opacity-50"
@@ -221,6 +258,7 @@ function App() {
         </div>
       ) : (
         <GameBoard
+          key={refreshKey}
           gameState={gameState}
           onMove={handleMove}
           puzzleLetters={puzzleLetters}
@@ -335,6 +373,11 @@ function App() {
         </div>
 
       </div>
+
+      <AuthModal 
+        isOpen={isAuthModalOpen} 
+        onClose={() => setIsAuthModalOpen(false)} 
+      />
     </main>
   )
 }
