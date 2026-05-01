@@ -162,7 +162,7 @@ function App() {
         <div className="flex flex-col items-center w-full max-w-[380px]">
           <header className="mb-6 text-center">
         <h1 className="text-5xl font-bold tracking-tighter text-white drop-shadow-[0_0_15px_rgba(255,255,255,0.3)]">
-          WORDPBOX
+          WORDBOX
         </h1>
         <p className="mt-2 text-blue-200">Select Letters to Build a Word</p>
       </header>
