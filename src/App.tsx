@@ -159,6 +159,16 @@ function App() {
     return () => window.removeEventListener('keydown', handleKeyDown);
   });
 
+  // Dynamic Page Title for SEO and Engagement
+  useEffect(() => {
+    const wordCount = foundWords.filter(fw => fw.valid).length;
+    if (totalScore > 0) {
+      document.title = `WordBox | ${totalScore} Points (${wordCount} Words)`;
+    } else {
+      document.title = "WordBox | Ultimate Word Puzzle Challenge";
+    }
+  }, [totalScore, foundWords]);
+
   return (
     <main className="min-h-screen bg-transparent text-white p-4 md:p-8 overflow-x-hidden">
       {/* Top Navigation Bar */}
