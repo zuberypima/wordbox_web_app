@@ -163,9 +163,9 @@ function App() {
   useEffect(() => {
     const wordCount = foundWords.filter(fw => fw.valid).length;
     if (totalScore > 0) {
-      document.title = `WordBox | ${totalScore} Points (${wordCount} Words)`;
+      document.title = `${totalScore} Points | Word Box Game | ${wordCount} Words Found`;
     } else {
-      document.title = "WordBox | Ultimate Word Puzzle Challenge";
+      document.title = "Word Box Game | The Best Online Word Box Puzzle";
     }
   }, [totalScore, foundWords]);
 
@@ -192,14 +192,14 @@ function App() {
                     WORD<span className="text-blue-400 bg-clip-text">BOX</span>
                   </span>
                   <span className="text-[9px] uppercase tracking-[0.5em] text-blue-400/50 mt-1.5 font-black">
-                    Puzzle Master
+                    Word Box Puzzle
                   </span>
                 </div>
               </div>
             </div>
           </div>
           <p className="mt-3 text-blue-200/60 font-medium tracking-wide text-[10px] uppercase bg-blue-900/10 px-3 py-1 rounded-full border border-blue-800/10">
-            Connect letters to solve the puzzle
+            The best online word box game & puzzle
           </p>
         </div>
 
