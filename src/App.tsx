@@ -26,6 +26,9 @@ function App() {
   const [isValidating, setIsValidating] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false)
+  const [difficulty, setDifficulty] = useState<'easy' | 'medium' | 'hard'>('medium')
+  const [sessionWpm, setSessionWpm] = useState<number>(0)
+  const [startTime, setStartTime] = useState<number>(Date.now())
   const { user, token, logout } = useAuth()
 
   const loadNewPuzzle = useCallback(async () => {
@@ -36,9 +39,11 @@ function App() {
     setFeedback(null)
     setGameState(null)
     try {
-      const puzzle = await fetchPuzzle()
+      const lengths = difficulty === 'easy' ? { min: 4, max: 6 } : difficulty === 'medium' ? { min: 6, max: 8 } : { min: 8, max: 12 };
+      const puzzle = await fetchPuzzle(lengths.min, lengths.max)
       setPuzzleLetters(puzzle.scrambled)
       setTargetWord(puzzle.word)
+      setStartTime(Date.now())
       setRefreshKey(0)
       setWordsSinceRefresh(0)
       setIsRevealed(false)
@@ -78,6 +83,14 @@ function App() {
         setFoundWords(prev => [{ word: selectedWord, score: result.score, valid: result.valid, meaning: result.meaning }, ...prev])
         if (result.valid) {
           setTotalScore(prev => prev + result.score)
+          
+          // Calculate WPM
+          const timeElapsed = (Date.now() - startTime) / 1000 / 60; // in minutes
+          const wpm = Math.round((selectedWord.length / 5) / timeElapsed);
+          if (wpm > 0 && wpm < 200) {
+            setSessionWpm(prev => prev === 0 ? wpm : Math.round((prev + wpm) / 2));
+          }
+
           const newWordsSince = wordsSinceRefresh + 1;
           if (newWordsSince >= 3) {
             setRefreshKey(k => k + 1)
@@ -163,9 +176,9 @@ function App() {
   useEffect(() => {
     const wordCount = foundWords.filter(fw => fw.valid).length;
     if (totalScore > 0) {
-      document.title = `${totalScore} Points | Word Box Game | ${wordCount} Words Found`;
+      document.title = `${totalScore} Points | Typing Game | Word Box`;
     } else {
-      document.title = "Word Box Game | The Best Online Word Box Puzzle";
+      document.title = "Typing Game | The Best Online Word Box Puzzle";
     }
   }, [totalScore, foundWords]);
 
@@ -199,7 +212,7 @@ function App() {
             </div>
           </div>
           <p className="mt-3 text-blue-200/60 font-medium tracking-wide text-[10px] uppercase bg-blue-900/10 px-3 py-1 rounded-full border border-blue-800/10">
-            The best online word box game & puzzle
+            The best online word box & typing game
           </p>
         </div>
 
@@ -243,14 +256,36 @@ function App() {
 
       {/* Score display */}
       <div className="mb-4 flex items-center gap-6">
-        <div className="text-center">
+        <div className="text-center pr-6">
           <div className="text-3xl font-black text-white drop-shadow-md">
             {totalScore}
           </div>
-          <div className="text-xs text-blue-300 uppercase tracking-widest">Score</div>
+          <div className="text-[10px] text-blue-300 uppercase tracking-widest">Score</div>
+        </div>
+
+        <div className="text-center px-6 border-l border-blue-900/30">
+          <div className="text-3xl font-black text-secondary drop-shadow-md">
+            {sessionWpm}
+          </div>
+          <div className="text-[10px] text-blue-300 uppercase tracking-widest">WPM</div>
         </div>
         
         <div className="flex flex-col gap-2">
+          {/* Difficulty Selector */}
+          <div className="flex bg-blue-900/20 p-1 rounded-xl border border-blue-800/30">
+            {(['easy', 'medium', 'hard'] as const).map((d) => (
+              <button
+                key={d}
+                onClick={() => setDifficulty(d)}
+                className={`px-3 py-1 rounded-lg text-[10px] font-black uppercase tracking-widest transition-all ${
+                  difficulty === d ? 'bg-primary text-white shadow-lg' : 'text-blue-300/50 hover:text-blue-300'
+                }`}
+              >
+                {d}
+              </button>
+            ))}
+          </div>
+          
           <button
             onClick={loadNewPuzzle}
             disabled={isLoading}
@@ -328,8 +363,23 @@ function App() {
         {/* Game Board (Letters) */}
         <div className="flex flex-col items-center">
           {isLoading ? (
-            <div className="w-full max-w-[380px] aspect-square flex items-center justify-center">
-              <div className="text-slate-500 text-lg animate-pulse tracking-widest uppercase">Loading Puzzle...</div>
+            <div className="w-full max-w-[380px] aspect-square flex flex-col items-center justify-center gap-8">
+              <div className="relative">
+                <div className="absolute -inset-8 bg-blue-500/20 blur-3xl rounded-full animate-pulse"></div>
+                <img 
+                  src="/favicon.png" 
+                  alt="Loading..." 
+                  className="w-24 h-24 rounded-2xl shadow-2xl animate-float animate-pulse-glow"
+                />
+              </div>
+              <div className="flex flex-col items-center gap-2">
+                <div className="text-blue-400 text-sm font-black tracking-[0.4em] uppercase animate-pulse">
+                  Preparing Puzzle
+                </div>
+                <div className="w-48 h-1 bg-blue-900/30 rounded-full overflow-hidden">
+                  <div className="h-full bg-gradient-to-r from-primary to-blue-400 animate-[loading_2s_ease-in-out_infinite]"></div>
+                </div>
+              </div>
             </div>
           ) : error ? (
             <div className="w-full max-w-[380px] aspect-square flex flex-col items-center justify-center gap-4">
@@ -397,7 +447,7 @@ function App() {
               <div>
                 <h3 className="text-blue-400 font-bold uppercase tracking-widest text-xs mb-4">How to Play</h3>
                 <ul className="space-y-2 text-sm text-blue-200/70 leading-relaxed">
-                  <li>• Tap or type adjacent/diagonal letters to build English words.</li>
+                  <li>• Use your keyboard to type letters and build English words.</li>
                   <li>• Valid words must be at least 3 letters long.</li>
                   <li>• Score points based on the length and difficulty of the word.</li>
                   <li>• The board auto-shuffles every 3 valid words to keep things fresh!</li>
@@ -406,7 +456,7 @@ function App() {
               <div>
                 <h3 className="text-blue-400 font-bold uppercase tracking-widest text-xs mb-4">About WordBox</h3>
                 <p className="text-sm text-blue-200/70 leading-relaxed">
-                  WordBox is the ultimate online word puzzle designed to sharpen your vocabulary and logic skills. 
+                  WordBox is the ultimate online typing game and word puzzle designed to sharpen your vocabulary and logic skills. 
                   Challenge yourself with thousands of word combinations in this addicting, fast-paced brain game. 
                   Sign in to track your high scores and compete with word masters worldwide.
                 </p>
