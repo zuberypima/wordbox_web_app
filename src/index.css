@@ -2,6 +2,9 @@
 
 @theme {
   --color-game-bg: #0f172a;
+  --color-primary: #00AEEF;
+  --color-secondary: #FF8200;
+  --color-accent-green: #10b981;
 }
 
 :root {

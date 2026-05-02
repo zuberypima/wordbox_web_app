@@ -161,47 +161,71 @@ function App() {
 
   return (
     <main className="min-h-screen bg-transparent text-white p-4 md:p-8 overflow-x-hidden">
-      {/* Top Navigation / Auth Bar */}
-      <div className="max-w-6xl mx-auto flex justify-end mb-4">
-        {user ? (
-          <div className="flex items-center gap-4 bg-blue-900/30 px-4 py-2 rounded-full border border-blue-800/50">
-            <div className="text-xs">
-              <div className="text-blue-300 font-bold uppercase tracking-widest opacity-70">Logged in as</div>
-              <div className="text-white font-black">{user.email}</div>
+      {/* Top Navigation Bar */}
+      <div className="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6 mb-12">
+        {/* Top-Left Logo */}
+        <div className="flex flex-col items-center md:items-start">
+          <div className="relative group cursor-default select-none scale-90 md:scale-100 origin-left">
+            <div className="absolute -inset-1 bg-gradient-to-r from-primary to-secondary rounded-2xl blur opacity-25 group-hover:opacity-50 transition duration-1000 group-hover:duration-200"></div>
+            <div className="relative flex items-center bg-slate-900/80 backdrop-blur-xl border border-blue-900/30 rounded-2xl px-5 py-3 shadow-2xl overflow-hidden">
+              <div className="flex items-center gap-3">
+                <div className="relative w-10 h-10 flex items-center justify-center bg-gradient-to-br from-primary to-blue-700 rounded-xl shadow-lg transform group-hover:rotate-12 transition-transform duration-500">
+                  <span className="text-xl font-black text-white">W</span>
+                  <div className="absolute inset-0 bg-white/10 rounded-xl"></div>
+                </div>
+                <div className="flex flex-col items-start leading-none">
+                  <span className="text-2xl font-black tracking-tighter text-white">
+                    WORD<span className="text-secondary">BOX</span>
+                  </span>
+                  <span className="text-[8px] uppercase tracking-[0.4em] text-blue-400/60 mt-0.5 font-bold">
+                    Puzzle Master
+                  </span>
+                </div>
+              </div>
             </div>
-            <button 
-              onClick={logout}
-              className="ml-2 p-2 hover:bg-red-500/10 rounded-full text-red-400 transition-all"
-              title="Logout"
-            >
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
-              </svg>
-            </button>
           </div>
-        ) : (
-          <button 
-            onClick={() => setIsAuthModalOpen(true)}
-            className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-full font-bold uppercase text-xs tracking-widest shadow-lg transition-all"
-          >
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-            </svg>
-            Sign In to Save Scores
-          </button>
-        )}
+          <p className="mt-3 text-blue-200/60 font-medium tracking-wide text-[10px] uppercase bg-blue-900/10 px-3 py-1 rounded-full border border-blue-800/10">
+            Connect letters to solve the puzzle
+          </p>
+        </div>
+
+        {/* Top-Right Auth Bar */}
+        <div className="flex items-center gap-4">
+          {user ? (
+            <div className="flex items-center gap-4 bg-blue-900/30 px-4 py-2 rounded-full border border-blue-800/50">
+              <div className="text-xs">
+                <div className="text-blue-300 font-bold uppercase tracking-widest opacity-70">Logged in as</div>
+                <div className="text-white font-black">{user.email}</div>
+              </div>
+              <button 
+                onClick={logout}
+                className="ml-2 p-2 hover:bg-red-500/10 rounded-full text-red-400 transition-all"
+                title="Logout"
+              >
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                </svg>
+              </button>
+            </div>
+          ) : (
+            <button 
+              onClick={() => setIsAuthModalOpen(true)}
+              className="flex items-center gap-2 bg-primary text-white px-6 py-2 rounded-full font-bold uppercase text-xs tracking-widest shadow-lg transition-all hover:opacity-90"
+            >
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+              </svg>
+              Sign In to Save Scores
+            </button>
+          )}
+        </div>
       </div>
 
-      <div className="max-w-6xl mx-auto flex flex-col lg:flex-row gap-12 lg:gap-24 items-center lg:items-start justify-center pt-2 lg:pt-8">
+      <div className="max-w-6xl mx-auto flex flex-col items-center pt-2 gap-12">
         
-        {/* Left Column: Game Area */}
-        <div className="flex flex-col items-center w-full max-w-[380px]">
-          <header className="mb-6 text-center">
-        <h1 className="text-5xl font-bold tracking-tighter text-white drop-shadow-[0_0_15px_rgba(255,255,255,0.3)]">
-          WORDBOX
-        </h1>
-        <p className="mt-2 text-blue-200">Select Letters to Build a Word</p>
-      </header>
+        {/* Top Section: Score and Controls */}
+        <div className="flex flex-col items-center w-full">
+          {/* Header removed from here and moved to Top Nav */}
 
       {/* Score display */}
       <div className="mb-4 flex items-center gap-6">
@@ -216,7 +240,7 @@ function App() {
           <button
             onClick={loadNewPuzzle}
             disabled={isLoading}
-            className="px-6 py-1.5 rounded-full bg-blue-600 text-white hover:bg-blue-700 transition-colors duration-300 text-xs font-bold uppercase tracking-wider shadow-md disabled:opacity-50"
+            className="px-6 py-1.5 rounded-full bg-primary text-white hover:opacity-90 transition-all duration-300 text-xs font-bold uppercase tracking-wider shadow-md disabled:opacity-50"
           >
             {isLoading ? 'Loading...' : 'New Puzzle'}
           </button>
@@ -229,7 +253,7 @@ function App() {
                 setGameState(null)
               }}
               disabled={isLoading || !puzzleLetters}
-              className="px-4 py-1.5 rounded-full bg-green-500 text-white hover:bg-green-600 transition-colors duration-300 text-xs font-bold uppercase tracking-wider shadow-sm disabled:opacity-50"
+              className="px-4 py-1.5 rounded-full bg-secondary text-white hover:opacity-90 transition-all duration-300 text-xs font-bold uppercase tracking-wider shadow-sm disabled:opacity-50"
             >
               Shuffle
             </button>
@@ -244,66 +268,115 @@ function App() {
         </div>
       </div>
 
-      {/* Game Board */}
-      {isLoading ? (
-        <div className="w-full max-w-[380px] aspect-square flex items-center justify-center">
-          <div className="text-slate-500 text-lg animate-pulse tracking-widest uppercase">Loading Puzzle...</div>
-        </div>
-      ) : error ? (
-        <div className="w-full max-w-[380px] aspect-square flex flex-col items-center justify-center gap-4">
-          <div className="text-red-500 text-center">{error}</div>
-          <button onClick={loadNewPuzzle} className="px-6 py-2 rounded-full bg-blue-600 text-white font-bold text-sm shadow-md">
-            Retry
-          </button>
-        </div>
-      ) : (
-        <GameBoard
-          key={refreshKey}
-          gameState={gameState}
-          onMove={handleMove}
-          puzzleLetters={puzzleLetters}
-          refreshKey={refreshKey}
-        />
-      )}
-
-      {/* Word input & controls */}
-      <div className="mt-3 text-center flex flex-col items-center justify-center min-h-[5rem]">
-        {feedback && (
-          <div className={`mb-3 px-5 py-2 rounded-full text-sm font-bold tracking-wider transition-all shadow-sm ${feedback.valid ? 'bg-green-500/20 text-green-400 border border-green-500/30' : 'bg-red-500/20 text-red-400 border border-red-500/30'}`}>
-            {feedback.message}
-          </div>
-        )}
-        {selectedWord ? (
-          <>
-            <div className="text-4xl font-black tracking-widest text-white drop-shadow-[0_0_10px_rgba(255,255,255,0.4)] mb-4">
-              {selectedWord}
+        {/* Word input & controls */}
+        <div className="mt-3 text-center flex flex-col items-center justify-center min-h-[5rem]">
+          {feedback && (
+            <div className={`mb-3 px-5 py-2 rounded-full text-sm font-bold tracking-wider transition-all shadow-sm ${feedback.valid ? 'bg-green-500/20 text-green-400 border border-green-500/30' : 'bg-red-500/20 text-red-400 border border-red-500/30'}`}>
+              {feedback.message}
             </div>
-            <div className="flex gap-4">
-              <button
-                onClick={handleClear}
-                className="px-6 py-2 rounded-full bg-slate-800 text-slate-300 hover:bg-slate-700 hover:text-white transition-colors duration-300 font-bold uppercase text-sm tracking-wider"
-              >
-                Clear
-              </button>
-              <button
-                onClick={handleSubmit}
-                disabled={isValidating}
-                className={`px-8 py-2 rounded-full font-black uppercase text-sm tracking-widest shadow-md hover:shadow-lg transition-all duration-300 ${
-                  isValidating
-                    ? 'bg-blue-300 text-white cursor-not-allowed'
-                    : 'bg-blue-600 text-white hover:bg-blue-700 hover:-translate-y-1'
-                }`}
-              >
-                {isValidating ? 'Checking...' : 'Submit'}
-              </button>
+          )}
+          {selectedWord ? (
+            <>
+              <div className="text-4xl font-black tracking-widest text-white drop-shadow-[0_0_10px_rgba(255,255,255,0.4)] mb-4">
+                {selectedWord}
+              </div>
+              <div className="flex gap-4">
+                <button
+                  onClick={handleClear}
+                  className="px-6 py-2 rounded-full bg-slate-800 text-slate-300 hover:bg-slate-700 hover:text-white transition-colors duration-300 font-bold uppercase text-sm tracking-wider"
+                >
+                  Clear
+                </button>
+                <button
+                  onClick={handleSubmit}
+                  disabled={isValidating}
+                  className={`px-8 py-2 rounded-full font-black uppercase text-sm tracking-widest shadow-md hover:shadow-lg transition-all duration-300 ${
+                    isValidating
+                      ? 'bg-primary/50 text-white cursor-not-allowed'
+                      : 'bg-primary text-white hover:opacity-90 hover:-translate-y-1'
+                  }`}
+                >
+                  {isValidating ? 'Checking...' : 'Submit'}
+                </button>
+              </div>
+            </>
+          ) : (
+            <div className="text-slate-400 text-sm tracking-widest uppercase">
+              Select letters to form a word
             </div>
-          </>
-        ) : (
-          <div className="text-slate-400 text-sm tracking-widest uppercase">
-            Select letters to form a word
-          </div>
-        )}
+          )}
+        </div>
       </div>
+
+      {/* Main Game Row: Letters Grid + Results Aside */}
+      <div className="flex flex-col md:flex-row items-start justify-center gap-12 w-full px-4">
+        
+        {/* Game Board (Letters) */}
+        <div className="flex flex-col items-center">
+          {isLoading ? (
+            <div className="w-full max-w-[380px] aspect-square flex items-center justify-center">
+              <div className="text-slate-500 text-lg animate-pulse tracking-widest uppercase">Loading Puzzle...</div>
+            </div>
+          ) : error ? (
+            <div className="w-full max-w-[380px] aspect-square flex flex-col items-center justify-center gap-4">
+              <div className="text-red-500 text-center">{error}</div>
+              <button onClick={loadNewPuzzle} className="px-6 py-2 rounded-full bg-primary text-white font-bold text-sm shadow-md hover:opacity-90 transition-all">
+                Retry
+              </button>
+            </div>
+          ) : (
+            <GameBoard
+              key={refreshKey}
+              gameState={gameState}
+              onMove={handleMove}
+              puzzleLetters={puzzleLetters}
+              refreshKey={refreshKey}
+            />
+          )}
+        </div>
+
+        {/* Right Section: Discovered Words List */}
+        <div className="w-full max-w-[320px] flex flex-col pt-2">
+          <div className="flex items-center justify-between mb-6 w-full">
+            <h2 className="text-blue-300 uppercase tracking-[0.2em] text-[10px] font-bold opacity-60">
+              Discovered
+            </h2>
+            <div className="px-3 py-0.5 rounded-full bg-blue-900/40 text-blue-300 text-[10px] font-black border border-blue-800/40">
+              {foundWords.filter(fw => fw.valid).length}
+            </div>
+          </div>
+          
+          <div className="grid grid-cols-2 gap-2 max-h-[420px] overflow-y-auto pr-2 custom-scrollbar">
+            {foundWords.length > 0 ? (
+              foundWords.map((fw, i) => (
+                <div
+                  key={i}
+                  className={`flex items-center justify-between px-3 py-2 rounded-xl border backdrop-blur-md animate-in fade-in slide-in-from-right-4 duration-300 transition-all ${
+                    fw.valid 
+                      ? 'bg-blue-900/20 border-blue-800/40 hover:border-primary/40 shadow-sm' 
+                      : 'bg-slate-900/40 border-red-900/20 opacity-40'
+                  }`}
+                >
+                  <span className={`text-[11px] font-black tracking-widest ${fw.valid ? 'text-white' : 'text-slate-500 line-through'}`}>
+                    {fw.word}
+                  </span>
+                  {fw.valid && (
+                    <span className="text-[9px] font-black text-secondary">
+                      +{fw.score}
+                    </span>
+                  )}
+                </div>
+              ))
+            ) : (
+              <div className="col-span-2 flex flex-col items-center justify-center py-12 border border-dashed border-blue-900/10 rounded-2xl opacity-20">
+                <span className="text-[9px] tracking-[0.3em] uppercase">No Words Yet</span>
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+
+
 
           <footer className="mt-16 border-t border-blue-900/30 pt-10 pb-12 w-full">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-10 text-left">
@@ -333,67 +406,6 @@ function App() {
               <span>© {new Date().getFullYear()} WordBox Puzzle Game. All Rights Reserved.</span>
             </div>
           </footer>
-        </div>
-
-        {/* Right Column: Submitted Words */}
-        <div className="w-full max-w-[500px] flex flex-col lg:pt-4">
-          {foundWords.length > 0 ? (
-            <>
-              <div className="flex items-center justify-center gap-4 mb-6">
-                <div className="h-[1px] bg-blue-800 flex-1"></div>
-                <h2 className="text-center text-blue-300 uppercase tracking-widest text-xs font-bold whitespace-nowrap">
-                  Submitted Words — {foundWords.filter(fw => fw.valid).length} valid
-                </h2>
-                <div className="h-[1px] bg-blue-800 flex-1"></div>
-              </div>
-              
-              <div className="flex flex-col gap-2">
-                {foundWords.map((fw, i) => (
-                  <div
-                    key={i}
-                    className={`relative overflow-hidden px-4 py-3 rounded-xl border backdrop-blur-md animate-in fade-in slide-in-from-bottom-4 duration-500 ${
-                      fw.valid 
-                        ? 'bg-blue-900/40 border-blue-800 hover:border-blue-500 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all' 
-                        : 'bg-slate-900/60 border-red-900/30 opacity-80'
-                    }`}
-                  >
-                    {/* Decorative background glow for valid words */}
-                    {fw.valid && (
-                      <div className="absolute -top-10 -right-10 w-24 h-24 bg-blue-500/10 rounded-full blur-2xl pointer-events-none"></div>
-                    )}
-                    
-                    <div className="flex items-center justify-between">
-                      <span className={`text-xl font-black tracking-widest ${fw.valid ? 'text-white' : 'text-slate-500 line-through'}`}>
-                        {fw.word}
-                      </span>
-                      {fw.valid ? (
-                        <span className="px-2 py-0.5 rounded-full bg-green-500/20 text-green-400 text-xs font-bold border border-green-500/30 shadow-sm">
-                          +{fw.score} PTS
-                        </span>
-                      ) : (
-                        <span className="px-2 py-0.5 rounded-full bg-red-500/20 text-red-400 text-[10px] font-bold border border-red-500/30 shadow-sm">
-                          INVALID
-                        </span>
-                      )}
-                    </div>
-                    
-                    {fw.valid && fw.meaning && (
-                      <p className="text-blue-200/80 text-xs leading-relaxed mt-2 pt-2 border-t border-blue-800 relative z-10">
-                        {fw.meaning}
-                      </p>
-                    )}
-                  </div>
-                ))}
-              </div>
-            </>
-          ) : (
-            <div className="flex flex-col items-center justify-center h-full text-slate-500 border border-dashed border-slate-800 bg-transparent rounded-2xl p-8 mt-12 lg:mt-0 opacity-50 min-h-[300px]">
-              <span className="text-4xl mb-4">✨</span>
-              <p className="text-sm tracking-widest uppercase text-center leading-relaxed">Words you find will<br/>appear here</p>
-            </div>
-          )}
-        </div>
-
       </div>
 
       <AuthModal 
