@@ -177,17 +177,21 @@ function App() {
         <div className="flex flex-col items-center md:items-start">
           <div className="relative group cursor-default select-none scale-90 md:scale-100 origin-left">
             <div className="absolute -inset-1 bg-gradient-to-r from-primary to-secondary rounded-2xl blur opacity-25 group-hover:opacity-50 transition duration-1000 group-hover:duration-200"></div>
-            <div className="relative flex items-center bg-slate-900/80 backdrop-blur-xl border border-blue-900/30 rounded-2xl px-5 py-3 shadow-2xl overflow-hidden">
-              <div className="flex items-center gap-3">
-                <div className="relative w-10 h-10 flex items-center justify-center bg-gradient-to-br from-primary to-blue-700 rounded-xl shadow-lg transform group-hover:rotate-12 transition-transform duration-500">
-                  <span className="text-xl font-black text-white">W</span>
-                  <div className="absolute inset-0 bg-white/10 rounded-xl"></div>
+            <div className="relative flex items-center bg-slate-900/60 backdrop-blur-xl border border-blue-900/20 rounded-2xl px-6 py-3 shadow-2xl overflow-hidden">
+              <div className="flex items-center gap-4">
+                <div className="relative">
+                  <div className="absolute -inset-2 bg-blue-500/20 blur-xl rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
+                  <img 
+                    src="/favicon.png" 
+                    alt="" 
+                    className="relative w-12 h-12 rounded-xl shadow-2xl transform group-hover:rotate-12 transition-transform duration-500"
+                  />
                 </div>
                 <div className="flex flex-col items-start leading-none">
-                  <span className="text-2xl font-black tracking-tighter text-white">
-                    WORD<span className="text-secondary">BOX</span>
+                  <span className="text-3xl font-black tracking-tighter text-white drop-shadow-sm">
+                    WORD<span className="text-blue-400 bg-clip-text">BOX</span>
                   </span>
-                  <span className="text-[8px] uppercase tracking-[0.4em] text-blue-400/60 mt-0.5 font-bold">
+                  <span className="text-[9px] uppercase tracking-[0.5em] text-blue-400/50 mt-1.5 font-black">
                     Puzzle Master
                   </span>
                 </div>
