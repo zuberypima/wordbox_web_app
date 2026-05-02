@@ -467,7 +467,15 @@ function App() {
               <div className="px-4 py-1.5 rounded-full bg-blue-900/20 border border-blue-800/30">
                 ⌨️ Desktop: Use Keyboard | Backspace: Delete | Enter: Submit
               </div>
-              <span>© {new Date().getFullYear()} WordBox Puzzle Game. All Rights Reserved.</span>
+              
+              <div className="flex flex-col items-center gap-1 mt-4">
+                <span className="text-blue-400/60 font-bold tracking-[0.3em]">Developed by Pimatech</span>
+                <a href="mailto:pimatech2026@gmail.com" className="text-blue-300/30 hover:text-primary transition-colors lowercase tracking-normal font-medium">
+                  pimatech2026@gmail.com
+                </a>
+              </div>
+
+              <span className="mt-4">© {new Date().getFullYear()} WordBox Puzzle Game. All Rights Reserved.</span>
             </div>
           </footer>
       </div>
